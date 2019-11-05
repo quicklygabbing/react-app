@@ -72,6 +72,17 @@ import com.android.build.OutputFile
  * ]
  */
 
+// ENVIRONMENT - env configFiles
+project.ext.envConfigFiles = [
+        debug: "environments/dev.env",
+        dev: "environments/dev.env",
+        staging: "environments/staging.env",
+        demo: "environments/demo.env",
+        production: "environments/production.env"
+]
+
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
+
 project.ext.react = [
     entryFile: "index.js"
 ]
@@ -109,6 +120,31 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        resValue "string", "build_config_package", "com.quicklygabbing"
+    }
+    flavorDimensions "version"
+    // ENVIRONMENT - added productFlavors
+    productFlavors {
+        dev {
+            dimension "version"
+            applicationIdSuffix ".dev"
+            versionNameSuffix "-dev"
+        }
+        staging {
+            dimension "version"
+            applicationIdSuffix ".staging"
+            versionNameSuffix "-staging"
+        }
+        demo {
+            dimension "version"
+            applicationIdSuffix ".demo"
+            versionNameSuffix "-demo"
+        }
+        production {
+            dimension "version"
+            applicationIdSuffix ""
+            versionNameSuffix ""
+        }
     }
     splits {
         abi {
@@ -144,6 +180,8 @@ android {
 }
 
 dependencies {
+    implementation project(':quicklygabbing-react-native-page-home')
+    implementation project(':react-native-config')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     implementation "com.facebook.react:react-native:+"  // From node_modules

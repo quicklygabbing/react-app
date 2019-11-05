@@ -1,3 +1,7 @@
 rootProject.name = 'quicklygabbing'
+include ':quicklygabbing-react-native-page-home'
+project(':quicklygabbing-react-native-page-home').projectDir = new File(rootProject.projectDir, '../node_modules/quicklygabbing-react-native-page-home/android')
+include ':react-native-config'
+project(':react-native-config').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-config/android')
 
 include ':app'
